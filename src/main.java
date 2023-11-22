@@ -14,6 +14,8 @@ public class main extends javax.swing.JFrame {
      */
     public main() {
         initComponents();
+        
+        
     }
 
     /**
@@ -29,10 +31,10 @@ public class main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        edit = new javax.swing.JLabel();
+        add = new javax.swing.JLabel();
+        delete = new javax.swing.JLabel();
         input1 = new Input();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -46,13 +48,13 @@ public class main extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1920, 1080));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel (2).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/button.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1850, 10, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1810, 20, -1, -1));
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setBackground(new java.awt.Color(246, 220, 174));
@@ -73,25 +75,38 @@ public class main extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 130, 945, 900));
+
+        edit.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
+        edit.setForeground(new java.awt.Color(255, 255, 255));
+        edit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        edit.setText("EDIT");
+        edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                editMousePressed(evt);
+            }
+        });
+        jPanel1.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 690, 220, 80));
+
+        add.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
+        add.setForeground(new java.awt.Color(255, 255, 255));
+        add.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        add.setText("ADD");
+        add.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addMouseClicked(evt);
+            }
+        });
+        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 690, 220, 80));
+
+        delete.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
+        delete.setForeground(new java.awt.Color(255, 255, 255));
+        delete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        delete.setText("DELETE");
+        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 690, 220, 80));
         jPanel1.add(input1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("EDIT");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 690, 220, 80));
-
-        jLabel4.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("ADD");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 690, 220, 80));
-
-        jLabel5.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("DELETE");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 690, 220, 80));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BG/LOGIN (2).jpg"))); // NOI18N
         jPanel1.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -105,11 +120,26 @@ public class main extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jLabel1MouseClicked
 
+    private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addMouseClicked
+
+    private void editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMouseClicked
+        edit ed = new edit();
+        ed.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_editMouseClicked
+
+    private void editMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMousePressed
+       
+    }//GEN-LAST:event_editMousePressed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new main().setVisible(true);
@@ -118,12 +148,12 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel add;
     private javax.swing.JLabel bg;
+    private javax.swing.JLabel delete;
+    private javax.swing.JLabel edit;
     private Input input1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
