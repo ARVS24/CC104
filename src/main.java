@@ -1,7 +1,9 @@
 import java.sql.*;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 public class main extends javax.swing.JFrame {
@@ -14,13 +16,42 @@ public class main extends javax.swing.JFrame {
       
         initComponents();
         Connect();
+        Fetch();
         
     }
 
     Connection con;
     PreparedStatement pst;
+    ResultSet rs;
    
-
+    private void Fetch(){
+        try {
+            int q;
+            pst = con.prepareStatement("SELECT * FROM students_tbl");
+            rs = pst.executeQuery();
+            ResultSetMetaData rss = rs.getMetaData();
+            q = rss.getColumnCount();
+            
+            DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
+            df.setRowCount(0);
+            while(rs.next()){
+               Vector v2 = new Vector();
+               for(int a=1; a<=q; a++){
+                   v2.add(rs.getString("sname"));
+                   v2.add(rs.getString("id"));
+                   v2.add(rs.getString("course"));
+                   v2.add(rs.getString("section"));
+                   v2.add(rs.getString("year"));
+               }
+               df.addRow(v2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+    
     public void Connect(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -74,7 +105,7 @@ public class main extends javax.swing.JFrame {
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setBackground(new java.awt.Color(246, 220, 174));
-        jTable1.setFont(new java.awt.Font("MS UI Gothic", 0, 36)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 18)); // NOI18N
         jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,13 +115,29 @@ public class main extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "NAME", "COURSE", "SECTION", "STUDENT I.D", "YEAR"
+                "NAME", "STUDENT I.D", "COURSE", "SECTION", "YEAR"
             }
-        ));
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 130, 945, 900));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
+        jTable1.setRowHeight(30);
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(895, 130, 1010, 930));
 
         edit.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
         edit.setForeground(new java.awt.Color(255, 255, 255));
@@ -243,6 +290,7 @@ public class main extends javax.swing.JFrame {
                 txtcourse.setText("");
                 txtsection.setText("");
                 txtyear.setText(""); 
+                Fetch();
             }else{
                 JOptionPane.showMessageDialog(this, "Student failed to add, please try again!");
             }
