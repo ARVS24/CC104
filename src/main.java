@@ -16,6 +16,7 @@ public class main extends javax.swing.JFrame {
       
         initComponents();
         Connect();
+        LoadStudentNumber();
         Fetch();
         
     }
@@ -24,10 +25,12 @@ public class main extends javax.swing.JFrame {
     PreparedStatement pst;
     ResultSet rs;
    
+    
+    
     private void Fetch(){
         try {
             int q;
-            pst = con.prepareStatement("SELECT * FROM students_tbl");
+            pst = con.prepareStatement("SELECT * FROM student_tbl");
             rs = pst.executeQuery();
             ResultSetMetaData rss = rs.getMetaData();
             q = rss.getColumnCount();
@@ -37,8 +40,9 @@ public class main extends javax.swing.JFrame {
             while(rs.next()){
                Vector v2 = new Vector();
                for(int a=1; a<=q; a++){
-                   v2.add(rs.getString("sname"));
                    v2.add(rs.getString("id"));
+                   v2.add(rs.getString("fname"));
+                   v2.add(rs.getString("sid"));
                    v2.add(rs.getString("course"));
                    v2.add(rs.getString("section"));
                    v2.add(rs.getString("year"));
@@ -62,6 +66,22 @@ public class main extends javax.swing.JFrame {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void LoadStudentNumber(){
+        try {
+            pst = con.prepareStatement("SELECT id FROM student_tbl");
+            rs = pst.executeQuery();
+            txtsid.removeAllItems();
+            while(rs.next()){
+            txtsid.addItem(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -70,7 +90,7 @@ public class main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        edit = new javax.swing.JLabel();
+        lblupdate = new javax.swing.JLabel();
         add = new javax.swing.JLabel();
         delete = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -83,6 +103,8 @@ public class main extends javax.swing.JFrame {
         txtcourse = new javax.swing.JTextField();
         txtsection = new javax.swing.JTextField();
         txtyear = new javax.swing.JTextField();
+        txtsid = new javax.swing.JComboBox<>();
+        lblsearch = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,17 +131,17 @@ public class main extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "NAME", "STUDENT I.D", "COURSE", "SECTION", "YEAR"
+                "STUDENT NO.", "NAME", "STUDENT I.D", "COURSE", "SECTION", "YEAR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -128,6 +150,11 @@ public class main extends javax.swing.JFrame {
         });
         jTable1.setGridColor(new java.awt.Color(0, 0, 0));
         jTable1.setRowHeight(30);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
@@ -135,23 +162,24 @@ public class main extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(895, 130, 1010, 930));
 
-        edit.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
-        edit.setForeground(new java.awt.Color(255, 255, 255));
-        edit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        edit.setText("EDIT");
-        edit.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblupdate.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
+        lblupdate.setForeground(new java.awt.Color(255, 255, 255));
+        lblupdate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblupdate.setText("UPDATE");
+        lblupdate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                editMouseClicked(evt);
+                lblupdateMouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                editMousePressed(evt);
+                lblupdateMousePressed(evt);
             }
         });
-        jPanel1.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 690, 220, 80));
+        jPanel1.add(lblupdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 690, 220, 80));
 
         add.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
         add.setForeground(new java.awt.Color(255, 255, 255));
@@ -168,6 +196,11 @@ public class main extends javax.swing.JFrame {
         delete.setForeground(new java.awt.Color(255, 255, 255));
         delete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         delete.setText("DELETE");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
+        });
         jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 690, 220, 80));
 
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
@@ -182,18 +215,18 @@ public class main extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("COURSE:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, -1, -1));
+        jLabel4.setText("COURSE       :");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("SECTION:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, -1, -1));
+        jLabel5.setText("SECTION      :");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 470, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("YEAR:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 530, -1, -1));
+        jLabel6.setText("YEAR           :");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 540, -1, -1));
 
         txtfname.setBackground(new java.awt.Color(245, 154, 61));
         txtfname.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
@@ -204,7 +237,7 @@ public class main extends javax.swing.JFrame {
                 txtfnameActionPerformed(evt);
             }
         });
-        jPanel1.add(txtfname, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 250, 390, 60));
+        jPanel1.add(txtfname, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 260, 390, 60));
 
         txtid.setBackground(new java.awt.Color(245, 154, 61));
         txtid.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
@@ -215,13 +248,13 @@ public class main extends javax.swing.JFrame {
                 txtidActionPerformed(evt);
             }
         });
-        jPanel1.add(txtid, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 390, 60));
+        jPanel1.add(txtid, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, 390, 60));
 
         txtcourse.setBackground(new java.awt.Color(245, 154, 61));
         txtcourse.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
         txtcourse.setForeground(new java.awt.Color(255, 255, 255));
         txtcourse.setBorder(null);
-        jPanel1.add(txtcourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 390, 390, 60));
+        jPanel1.add(txtcourse, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 400, 390, 60));
 
         txtsection.setBackground(new java.awt.Color(245, 154, 61));
         txtsection.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
@@ -232,7 +265,7 @@ public class main extends javax.swing.JFrame {
                 txtsectionActionPerformed(evt);
             }
         });
-        jPanel1.add(txtsection, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 460, 390, 60));
+        jPanel1.add(txtsection, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 470, 390, 60));
 
         txtyear.setBackground(new java.awt.Color(245, 154, 61));
         txtyear.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
@@ -243,7 +276,25 @@ public class main extends javax.swing.JFrame {
                 txtyearActionPerformed(evt);
             }
         });
-        jPanel1.add(txtyear, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 530, 390, 60));
+        jPanel1.add(txtyear, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 540, 390, 60));
+
+        txtsid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtsid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtsidActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtsid, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 810, 290, 60));
+
+        lblsearch.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
+        lblsearch.setForeground(new java.awt.Color(255, 255, 255));
+        lblsearch.setText("SEARCH");
+        lblsearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblsearchMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lblsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 820, -1, -1));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BG/LOGIN (2).jpg"))); // NOI18N
         jPanel1.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -274,7 +325,7 @@ public class main extends javax.swing.JFrame {
             String section = txtsection.getText();
             String year = txtyear.getText();
             
-            pst = con.prepareStatement("INSERT INTO students_tbl (sname,id,course,section,year)VALUES(?,?,?,?,?)");
+            pst = con.prepareStatement("INSERT INTO student_tbl (fname,sid,course,section,year)VALUES(?,?,?,?,?)");
             pst.setString(1, full_name);
             pst.setString(2, student_id);
             pst.setString(3, course);
@@ -284,15 +335,16 @@ public class main extends javax.swing.JFrame {
             int k = pst.executeUpdate();
             
             if(k==1){
-                JOptionPane.showMessageDialog(this, "Student added successfully!");
+                JOptionPane.showMessageDialog(this, "Student successfully added!");
                 txtfname.setText("");
                 txtid.setText("");
                 txtcourse.setText("");
                 txtsection.setText("");
                 txtyear.setText(""); 
                 Fetch();
+                LoadStudentNumber();
             }else{
-                JOptionPane.showMessageDialog(this, "Student failed to add, please try again!");
+                JOptionPane.showMessageDialog(this, "Failed to add student, please try again!");
             }
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
@@ -300,16 +352,50 @@ public class main extends javax.swing.JFrame {
             
     }//GEN-LAST:event_addMouseClicked
 
-    private void editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMouseClicked
-        edit ed = new edit();
-        ed.setVisible(true);
-        this.dispose();
-        
-    }//GEN-LAST:event_editMouseClicked
-
-    private void editMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMousePressed
+    private void lblupdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblupdateMouseClicked
        
-    }//GEN-LAST:event_editMousePressed
+        try {
+            String fname = txtfname.getText();
+            String id = txtid.getText();
+            String section = txtsection.getText();
+            String course = txtcourse.getText();
+            String year = txtyear.getText();
+            String sid = txtsid.getSelectedItem().toString();
+            
+            pst = con.prepareStatement("UPDATE student_tbl SET fname=?,sid=?,course=?,section=?,year=? WHERE id=?");
+            
+            pst.setString(1, fname);
+            pst.setString(2, id);
+            pst.setString(3, course);
+            pst.setString(4, section);
+            pst.setString(5, year);
+            pst.setString(6, sid);
+            
+            int k=pst.executeUpdate();
+            if(k==1){
+                 JOptionPane.showMessageDialog(this, "Student updated!");
+                
+                txtfname.setText("");
+                txtid.setText("");
+                txtcourse.setText("");
+                txtsection.setText("");
+                txtyear.setText(""); 
+                txtfname.requestFocus();
+                Fetch();
+                LoadStudentNumber();
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }//GEN-LAST:event_lblupdateMouseClicked
+
+    private void lblupdateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblupdateMousePressed
+       
+    }//GEN-LAST:event_lblupdateMousePressed
 
     private void txtfnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfnameActionPerformed
         // TODO add your handling code here:
@@ -327,6 +413,70 @@ public class main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtidActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void txtsidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtsidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtsidActionPerformed
+
+    private void lblsearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblsearchMouseClicked
+        try {
+            String sid = txtsid.getSelectedItem().toString();
+            pst = con.prepareStatement("SELECT * FROM student_tbl WHERE id=?");
+            pst.setString(1,sid);
+            rs = pst.executeQuery();
+            
+            if(rs.next()==true){
+                txtfname.setText(rs.getString(2));
+                txtid.setText(rs.getString(3));
+                txtcourse.setText(rs.getString(4));
+                txtsection.setText(rs.getString(5));
+                txtyear.setText(rs.getString(6));
+            }else{
+                JOptionPane.showMessageDialog(this, "No student found!");
+                txtfname.setText("");
+                txtid.setText("");
+                txtcourse.setText("");
+                txtsection.setText("");
+                txtyear.setText(""); 
+                txtfname.requestFocus();
+                
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_lblsearchMouseClicked
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+        try {
+            String sid = txtsid.getSelectedItem().toString();
+            pst = con.prepareStatement("DELETE FROM student_tbl WHERE id=?");
+            pst.setString(1, sid);
+            
+            int k = pst.executeUpdate();
+            if (k==1){
+                JOptionPane.showMessageDialog(this, "Student record sucessfully deleted!");
+                txtfname.setText("");
+                txtid.setText("");
+                txtcourse.setText("");
+                txtsection.setText("");
+                txtyear.setText(""); 
+                txtfname.requestFocus();
+                Fetch();
+                LoadStudentNumber();
+            }else{
+            JOptionPane.showMessageDialog(this, "Student record failed to delete!");
+           }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_deleteMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -343,7 +493,6 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JLabel add;
     private javax.swing.JLabel bg;
     private javax.swing.JLabel delete;
-    private javax.swing.JLabel edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -353,10 +502,13 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblsearch;
+    private javax.swing.JLabel lblupdate;
     private javax.swing.JTextField txtcourse;
     private javax.swing.JTextField txtfname;
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtsection;
+    private javax.swing.JComboBox<String> txtsid;
     private javax.swing.JTextField txtyear;
     // End of variables declaration//GEN-END:variables
 }
