@@ -284,7 +284,7 @@ public class main extends javax.swing.JFrame {
                 txtsidActionPerformed(evt);
             }
         });
-        jPanel1.add(txtsid, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 810, 290, 60));
+        jPanel1.add(txtsid, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 840, 290, 60));
 
         lblsearch.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
         lblsearch.setForeground(new java.awt.Color(255, 255, 255));
@@ -294,9 +294,9 @@ public class main extends javax.swing.JFrame {
                 lblsearchMouseClicked(evt);
             }
         });
-        jPanel1.add(lblsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 820, -1, -1));
+        jPanel1.add(lblsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 840, -1, -1));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BG/LOGIN (2).jpg"))); // NOI18N
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BG/mian.bg.jpg"))); // NOI18N
         jPanel1.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
