@@ -16,6 +16,7 @@ public class main extends javax.swing.JFrame {
       
         initComponents();
         Connect();
+        LoadStudentNumber();
         Fetch();
         
     }
@@ -86,6 +87,8 @@ public class main extends javax.swing.JFrame {
         txtcourse = new javax.swing.JTextField();
         txtsection = new javax.swing.JTextField();
         txtyear = new javax.swing.JTextField();
+        txtsid = new javax.swing.JComboBox<>();
+        lblsearch = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,11 +118,11 @@ public class main extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "NAME", "STUDENT I.D", "COURSE", "SECTION", "YEAR"
+                "STUDENT NO.", "NAME", "STUDENT I.D", "COURSE", "SECTION", "YEAR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -258,7 +261,25 @@ public class main extends javax.swing.JFrame {
         });
         jPanel1.add(txtyear, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 540, 390, 60));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BG/LOGIN (2).jpg"))); // NOI18N
+        txtsid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtsid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtsidActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtsid, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 840, 290, 60));
+
+        lblsearch.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 48)); // NOI18N
+        lblsearch.setForeground(new java.awt.Color(255, 255, 255));
+        lblsearch.setText("SEARCH");
+        lblsearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblsearchMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lblsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 840, -1, -1));
+
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BG/mian.bg.jpg"))); // NOI18N
         jPanel1.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -465,6 +486,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JTextField txtfname;
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtsection;
+    private javax.swing.JComboBox<String> txtsid;
     private javax.swing.JTextField txtyear;
     // End of variables declaration//GEN-END:variables
 }
